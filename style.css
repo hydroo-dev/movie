@@ -1,0 +1,143 @@
+/* Reset */
+* {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Body & Fonts */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #141414 !important;
+  color: white !important;
+}
+
+/* Header */
+header {
+  display: flex !important;
+  align-items: center !important;
+  padding: 10px 20px !important;
+  background-color: #141414 !important;
+  gap: 10px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+header .logo {
+  font-size: 24px !important;
+  font-weight: bold !important;
+  flex: 1 !important;
+  color: #e50914 !important;
+}
+header input {
+  padding: 8px !important;
+  width: 250px !important;
+  border-radius: 2px !important;
+  border: none !important;
+}
+header button {
+  padding: 8px 12px !important;
+  background-color: #e50914 !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  color: white !important;
+}
+
+/* Hero Slider */
+.hero-slider {
+    position: relative !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+.hero-slider img {
+    width: 100% !important;
+    height: auto !important; /* auto for responsiveness */
+    max-height: 60vh !important; /* viewport relative */
+    object-fit: cover !important;
+    display: block !important;
+    transition: opacity 1s ease-in-out !important;
+}
+
+
+/* Carousel Section */
+.carousel-section {
+  margin: 20px !important;
+}
+.carousel-section h2 {
+  margin-bottom: 10px !important;
+  color: white !important;
+}
+.carousel {
+  display: flex !important;
+  overflow-x: auto !important;
+  gap: 15px !important;
+  padding-bottom: 10px !important;
+  scroll-behavior: smooth !important;
+}
+.carousel::-webkit-scrollbar {
+  height: 6px !important;
+}
+.carousel::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  border-radius: 3px !important;
+}
+
+/* Movie Card */
+.movie-card {
+  min-width: 200px !important;
+  background: #1e1e1e !important;
+  border-radius: 5px !important;
+  overflow: hidden !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: transform 0.3s ease !important;
+}
+.movie-card:hover {
+  transform: scale(1.05) !important;
+}
+.movie-card img {
+  width: 100% !important;
+  height: 300px !important;
+  object-fit: cover !important;
+  opacity: 0 !important;
+  transition: opacity 1s ease-in !important;
+}
+.movie-card img.loaded {
+  opacity: 1 !important;
+}
+.movie-card h3 {
+  padding: 5px !important;
+  font-size: 16px !important;
+}
+.movie-card p {
+  padding-bottom: 5px !important;
+  font-size: 14px !important;
+  color: #aaa !important;
+}
+
+/* Search Results Grid */
+.movies {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  padding: 20px !important;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  header input{
+    width: 150px !important;
+  }
+  .movie-card{
+    min-width: 140px !important;
+  }
+  .hero-slider{
+    height: 250px !important;
+  }
+  .hero-slider img{
+    height: 250px !important;
+  }
+}

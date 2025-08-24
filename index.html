@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Movie App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header>
+    <div class="logo">MovieFlix</div>
+    <input type="text" id="searchInput" placeholder="Search movies...">
+    <button id="searchBtn">Search</button>
+  </header>
+
+  <!-- Hero Slider -->
+  <section class="hero-slider" id="heroSlider">
+    <img src="https://wallpaperbat.com/img/346050-dark-netflix-tv-show-minimal-poster-1440p-resolution.jpg" alt="Hero Banner">
+  </section>
+
+  <!-- Carousels -->
+  <section class="carousel-section">
+    <h2>Popular Movies</h2>
+    <div class="carousel" id="popularMovies"></div>
+  </section>
+
+  <section class="carousel-section">
+    <h2>Recommended Movies</h2>
+    <div class="carousel" id="recommendedMovies"></div>
+  </section>
+
+  <!-- Search Results -->
+  <section class="movies" id="moviesContainer"></section>
+
+  <script src="script.js"></script>
+</body>
+</html>
