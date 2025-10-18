@@ -3,35 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Netflix Movie App</title>
-  <link rel="stylesheet" href="style.css">
+  <title>MovieFlix - Watch Movies</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Header / Navbar -->
-  <header>
-    <div class="logo">MovieFlix</div>
-    <input type="text" id="searchInput" placeholder="Search movies...">
-    <button id="searchBtn">Search</button>
+  <header id="header">
+    <div class="header-left">
+      <div class="logo" onclick="showHomepage()">MOVIEFLIX</div>
+      <nav class="nav-links">
+        <a onclick="showHomepage()">Home</a>
+        <a>TV Shows</a>
+        <a>Movies</a>
+        <a>New & Popular</a>
+        <a>My List</a>
+      </nav>
+    </div>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <div class="search-container">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Titles, people, genres">
+      </div>
+      <button id="searchBtn">Search</button>
+    </div>
   </header>
 
-  <!-- Hero Slider -->
-  <section class="hero-slider" id="heroSlider">
-    <img src="https://wallpaperbat.com/img/346050-dark-netflix-tv-show-minimal-poster-1440p-resolution.jpg" alt="Hero Banner">
-  </section>
+  <!-- Homepage -->
+  <div id="homepage">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-slider" id="heroSlider">
+        <img src="https://wallpaperbat.com/img/346050-dark-netflix-tv-show-minimal-poster-1440p-resolution.jpg" class="active" alt="Hero Banner">
+        <img src="https://wallpaperbat.com/img/306398-castlevania-netflix-s2-wallpaper-hd-castlevania.png" alt="Hero Banner">
+        <img src="https://wallpaperbat.com/img/95493-the-witcher-netflix-wallpaper-and-background-download-hd.jpg" alt="Hero Banner">
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Unlimited movies, TV shows, and more</h1>
+        <p>Watch anywhere. Cancel anytime. Ready to watch? Start exploring now.</p>
+        <div class="hero-buttons">
+       
+        </div>
+      </div>
+    </section>
 
-  <!-- Carousels -->
-  <section class="carousel-section">
-    <h2>Popular Movies</h2>
-    <div class="carousel" id="popularMovies"></div>
-  </section>
+    <!-- Popular Movies Carousel -->
+    <section class="carousel-section fade-in">
+      <h2>Trending Now</h2>
+      <div class="carousel-wrapper">
+        <div class="carousel" id="popularMovies"></div>
+      </div>
+    </section>
 
-  <section class="carousel-section">
-    <h2>Recommended Movies</h2>
-    <div class="carousel" id="recommendedMovies"></div>
-  </section>
+    <!-- Recommended Movies Carousel -->
+    <section class="carousel-section fade-in">
+      <h2>Top Picks For You</h2>
+      <div class="carousel-wrapper">
+        <div class="carousel" id="recommendedMovies"></div>
+      </div>
+    </section>
+  </div>
 
-  <!-- Search Results -->
-  <section class="movies" id="moviesContainer"></section>
+  <!-- Search Results Section -->
+  <section id="searchResultsSection">
+    <div class="search-header">
+      <h2 id="searchTitle">Search Results</h2>
+      <button class="back-btn" onclick="showHomepage()">← Back to Home</button>
+    </div>
+    <div class="movies-grid" id="moviesContainer"></div>
+  </section>
 
   <script src="script.js"></script>
 </body>
