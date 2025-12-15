@@ -1,81 +1,935 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MovieFlix - Watch Movies</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCS Exam Surveillance Dashboard - Tanna Consultancy Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 0, 0.05) 0%, transparent 20%);
+        }
+        
+        /* HACKER STYLE ANIMATIONS */
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+            50% { text-shadow: -2px 0 red, 2px 0 cyan; }
+            100% { text-shadow: 2px 0 red, -2px 0 cyan; }
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 0, 0, 0.7); }
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes count-up {
+            from { --num: 0; }
+            to { --num: attr(data-count); }
+        }
+        
+        @keyframes matrix-fall {
+            0% { transform: translateY(-100%); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        /* SCANLINE EFFECT */
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 255, 0, 0.8);
+            z-index: 9999;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* MATRIX RAIN BACKGROUND */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+        
+        .matrix-digit {
+            position: absolute;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            animation: matrix-fall linear infinite;
+        }
+        
+        /* HEADER - GAND PHAT JAYE WALA */
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
+            animation: pulse-red 2s infinite;
+        }
+        
+        .header::before {
+            content: "⚠️ SECURITY ALERT ⚠️";
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #ff0;
+            font-size: 14px;
+            animation: blink 1s infinite;
+        }
+        
+        .tcs-logo {
+            font-size: 60px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 0 10px #ff0000;
+            animation: glitch 0.5s infinite;
+        }
+        
+        .tanna-text {
+            font-size: 36px;
+            color: #ff0000;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 24px;
+            color: #0f0;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .warning-text {
+            color: #ff0;
+            font-size: 18px;
+            background: rgba(255, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            animation: shake 0.5s infinite;
+        }
+        
+        /* REAL-TIME MONITORING BAR */
+        .monitor-bar {
+            background: rgba(0, 20, 0, 0.8);
+            border: 1px solid #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .monitor-text {
+            color: #0f0;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        .blink-cursor {
+            animation: blink 1s infinite;
+            color: #0f0;
+        }
+        
+        /* DASHBOARD TITLE */
+        .dashboard-title {
+            text-align: center;
+            font-size: 32px;
+            color: #fff;
+            margin: 30px 0;
+            padding: 15px;
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 5px solid #ff0000;
+            border-right: 5px solid #ff0000;
+            position: relative;
+        }
+        
+        .dashboard-title::after {
+            content: "🔴 LIVE TRACKING ACTIVE 🔴";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff0000;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            animation: blink 0.8s infinite;
+        }
+        
+        /* STATS GRID - EXACT VISIT COUNTS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .stat-card {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px currentColor;
+        }
+        
+        .stat-card.faridabad {
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+        
+        .stat-card.noida {
+            border-color: #00a8ff;
+            color: #00a8ff;
+        }
+        
+        .stat-card.indore {
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+        
+        .stat-card.unknown {
+            border-color: #ff00ff;
+            color: #ff00ff;
+            animation: shake 0.5s infinite;
+        }
+        
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shine 3s infinite linear;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .location-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .location-icon {
+            font-size: 30px;
+        }
+        
+        .visit-count {
+            font-size: 72px;
+            font-weight: 900;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 20px currentColor;
+        }
+        
+        .stat-card.faridabad .visit-count {
+            color: #ff0000;
+            animation: glitch 0.3s infinite;
+        }
+        
+        .visit-label {
+            text-align: center;
+            font-size: 18px;
+            color: #aaa;
+            margin-top: 10px;
+        }
+        
+        .visit-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        /* MAP VISUALIZATION */
+        .map-container {
+            background: rgba(10, 20, 10, 0.9);
+            border: 2px solid #0f0;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-title {
+            color: #0f0;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .india-map {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            background: rgba(0, 30, 0, 0.5);
+            border: 1px solid #0f0;
+        }
+        
+        .location-dot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-red 1s infinite;
+        }
+        
+        .dot-faridabad {
+            background: radial-gradient(circle, #ff0000, transparent 70%);
+            top: 40%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .dot-noida {
+            background: radial-gradient(circle, #00a8ff, transparent 70%);
+            top: 38%;
+            left: 48%;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .dot-indore {
+            background: radial-gradient(circle, #00ff00, transparent 70%);
+            top: 50%;
+            left: 40%;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .dot-label {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        
+        /* SECURITY ALERT */
+        .security-alert {
+            background: rgba(255, 0, 0, 0.2);
+            border: 3px solid #ff0000;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 40px 0;
+            text-align: center;
+            animation: pulse-red 1s infinite;
+        }
+        
+        .alert-title {
+            color: #ff0;
+            font-size: 28px;
+            margin-bottom: 15px;
+            animation: blink 0.5s infinite;
+        }
+        
+        .alert-message {
+            color: #fff;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .alert-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .alert-stat {
+            background: rgba(0,0,0,0.7);
+            padding: 15px 25px;
+            border-radius: 5px;
+            border: 1px solid #ff0;
+        }
+        
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid #ff0000;
+            margin-top: 50px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .footer-text {
+            color: #0f0;
+            font-size: 14px;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .visit-count {
+                font-size: 56px;
+            }
+            
+            .tcs-logo {
+                font-size: 40px;
+            }
+            
+            .tanna-text {
+                font-size: 24px;
+            }
+        }
+    </style>
+
 </head>
 <body>
-  <!-- Header / Navbar -->
-  <header id="header">
-    <div class="header-left">
-      <div class="logo" onclick="showHomepage()">MOVIEFLIX</div>
-      <nav class="nav-links">
-        <a onclick="showHomepage()">Home</a>
-        <a>TV Shows</a>
-        <a>Movies</a>
-        <a>New & Popular</a>
-        <a>My List</a>
-      </nav>
-    </div>
-    <div style="display: flex; align-items: center; gap: 15px;">
-      <div class="search-container">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.35-4.35"></path>
-        </svg>
-        <input type="text" id="searchInput" placeholder="Titles, people, genres">
-      </div>
-      <button id="searchBtn">Search</button>
-    </div>
-  </header>
-
-  <!-- Homepage -->
-  <div id="homepage">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-slider" id="heroSlider">
-        <img src="https://wallpaperbat.com/img/346050-dark-netflix-tv-show-minimal-poster-1440p-resolution.jpg" class="active" alt="Hero Banner">
-        <img src="https://wallpaperbat.com/img/306398-castlevania-netflix-s2-wallpaper-hd-castlevania.png" alt="Hero Banner">
-        <img src="https://wallpaperbat.com/img/95493-the-witcher-netflix-wallpaper-and-background-download-hd.jpg" alt="Hero Banner">
-      </div>
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1>Unlimited movies, TV shows, and more</h1>
-        <p>Watch anywhere. Cancel anytime. Ready to watch? Start exploring now.</p>
-        <div class="hero-buttons">
-       
+    <!-- SCANLINE EFFECT -->
+    <div class="scanline"></div>
+    
+    <!-- MATRIX RAIN EFFECT -->
+    <div class="matrix-rain" id="matrixRain"></div>
+    
+    <div class="container">
+        <!-- HEADER - GAND PHATNE WALA -->
+        <div class="header">
+            <div class="tcs-logo">TCS</div>
+            <div class="tanna-text">TANNA CONSULTANCY SERVICES</div>
+            <div class="subtitle">EXAM SURVEILLANCE DASHBOARD</div>
+            <div class="warning-text">⚠️ ALL ACTIVITIES ARE BEING MONITORED AND RECORDED ⚠️</div>
         </div>
-      </div>
-    </section>
-
-    <!-- Popular Movies Carousel -->
-    <section class="carousel-section fade-in">
-      <h2>Trending Now</h2>
-      <div class="carousel-wrapper">
-        <div class="carousel" id="popularMovies"></div>
-      </div>
-    </section>
-
-    <!-- Recommended Movies Carousel -->
-    <section class="carousel-section fade-in">
-      <h2>Top Picks For You</h2>
-      <div class="carousel-wrapper">
-        <div class="carousel" id="recommendedMovies"></div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Search Results Section -->
-  <section id="searchResultsSection">
-    <div class="search-header">
-      <h2 id="searchTitle">Search Results</h2>
-      <button class="back-btn" onclick="showHomepage()">← Back to Home</button>
+        
+        <!-- REAL-TIME MONITOR -->
+        <div class="monitor-bar">
+            <div class="monitor-text" id="monitorText">
+                [SYSTEM] Live Tracking Active | [TIME] <span id="liveTime">00:00:00</span> | 
+                [STATUS] Monitoring 98 Candidates | [ALERT] 24 Unknown Locations Detected | 
+                [ACTION] Logging All Activities | [WARNING] Cheating Attempts Will Be Prosecuted<span class="blink-cursor">_</span>
+            </div>
+        </div>
+        
+        <!-- DASHBOARD TITLE -->
+        <div class="dashboard-title">
+            EXAM ACCESS LOCATION TRACKING
+        </div>
+        
+        <!-- EXACT VISIT COUNTS - NO PERCENTAGE -->
+        <div class="stats-grid">
+            <!-- FARIDABAD - 48 VISITS -->
+            <div class="stat-card faridabad">
+                <div class="stat-header">
+                    <div class="location-name">FARIDABAD</div>
+                    <div class="location-icon">📍</div>
+                </div>
+                <div class="visit-count" id="faridabadCount">48</div>
+                <div class="visit-label">EXAM ACCESS ATTEMPTS</div>
+                <div class="visit-details">
+                    <strong>Details:</strong><br>
+                    • IP Range: 103.216.XX.XXX<br>
+                    • First Access: 09:15 AM<br>
+                    • Last Access: 02:45 PM<br>
+                    • Avg. Duration: 47 minutes
+                </div>
+            </div>
+            
+            <!-- NOIDA - 17 VISITS -->
+            <div class="stat-card noida">
+                <div class="stat-header">
+                    <div class="location-name">NOIDA</div>
+                    <div class="location-icon">🏢</div>
+                </div>
+                <div class="visit-count" id="noidaCount">17</div>
+                <div class="visit-label">EXAM ACCESS ATTEMPTS</div>
+                <div class="visit-details">
+                    <strong>Details:</strong><br>
+                    • IP Range: 182.156.XX.XXX<br>
+                    • First Access: 09:30 AM<br>
+                    • Last Access: 03:20 PM<br>
+                    • Avg. Duration: 52 minutes
+                </div>
+            </div>
+            
+            <!-- INDORE - 9 VISITS -->
+            <div class="stat-card indore">
+                <div class="stat-header">
+                    <div class="location-name">INDORE</div>
+                    <div class="location-icon">🌇</div>
+                </div>
+                <div class="visit-count" id="indoreCount">9</div>
+                <div class="visit-label">EXAM ACCESS ATTEMPTS</div>
+                <div class="visit-details">
+                    <strong>Details:</strong><br>
+                    • IP Range: 49.205.XX.XXX<br>
+                    • First Access: 10:05 AM<br>
+                    • Last Access: 01:55 PM<br>
+                    • Avg. Duration: 38 minutes
+                </div>
+            </div>
+            
+            <!-- UNKNOWN - 24 VISITS -->
+            <div class="stat-card unknown">
+                <div class="stat-header">
+                    <div class="location-name">UNKNOWN LOCATION</div>
+                    <div class="location-icon">❓</div>
+                </div>
+                <div class="visit-count" id="unknownCount">24</div>
+                <div class="visit-label">HALF-RELOAD ATTEMPTS</div>
+                <div class="visit-details">
+                    <strong>⚠️ SUSPICIOUS ACTIVITY:</strong><br>
+                    • VPN/Proxy Detected: 18 attempts<br>
+                    • Location Spoofing: 6 attempts<br>
+                    • IP Masking: Active<br>
+                    • Security Alert: HIGH
+                </div>
+            </div>
+        </div>
+        
+        <!-- MAP VISUALIZATION -->
+        <div class="map-container">
+            <div class="map-title">📍 GEO-LOCATION TRACKING MAP</div>
+            <div class="india-map">
+                <!-- Faridabad Dot -->
+                <div class="location-dot dot-faridabad">
+                    <div class="dot-label" style="top: -40px; left: 50%;">Faridabad (48)</div>
+                </div>
+                
+                <!-- Noida Dot -->
+                <div class="location-dot dot-noida">
+                    <div class="dot-label" style="top: -40px; left: 50%;">Noida (17)</div>
+                </div>
+                
+                <!-- Indore Dot -->
+                <div class="location-dot dot-indore">
+                    <div class="dot-label" style="top: -40px; left: 50%;">Indore (9)</div>
+                </div>
+                
+                <!-- Unknown Signals -->
+                <div style="position: absolute; bottom: 20px; left: 20px; color: #ff00ff; font-family: 'Courier New';">
+                    ⚠️ 24 Unknown Signals Detected
+                </div>
+            </div>
+        </div>
+        
+        <!-- SECURITY ALERT -->
+        <div class="security-alert">
+            <div class="alert-title">🚨 SECURITY ALERT - ATTEMPTED CHEATING DETECTED</div>
+            <div class="alert-message">
+                System has detected 24 half-reload attempts from candidates trying to bypass location tracking.<br>
+                These attempts suggest use of VPN, proxy servers, or location spoofing software.<br>
+                <strong>All such activities have been logged and will be reported to HR department.</strong>
+            </div>
+            <div class="alert-stats">
+                <div class="alert-stat">
+                    <div>Total Exam Accesses</div>
+                    <div style="color: #ff0; font-size: 24px; font-weight: bold;">98</div>
+                </div>
+                <div class="alert-stat">
+                    <div>Suspicious Activities</div>
+                    <div style="color: #f00; font-size: 24px; font-weight: bold;">24</div>
+                </div>
+                <div class="alert-stat">
+                    <div>Success Rate</div>
+                    <div style="color: #0f0; font-size: 24px; font-weight: bold;">75.5%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-text">
+                Tanna Consultancy Services - Secure Exam Portal v3.0<br>
+                Session ID: TCS-EXAM-2023-TRACKING-ALPHA<br>
+                Last Updated: <span id="updateTime">Loading...</span> | System Status: <span style="color: #0f0;">ACTIVE</span>
+            </div>
+        </div>
     </div>
-    <div class="movies-grid" id="moviesContainer"></div>
-  </section>
-
-  <script src="script.js"></script>
+<script>
+        // MATRIX RAIN EFFECT
+        function createMatrixRain() {
+            const matrixRain = document.getElementById('matrixRain');
+            const digits = '01';
+            
+            for(let i = 0; i < 100; i++) {
+                const digit = document.createElement('div');
+                digit.className = 'matrix-digit';
+                digit.textContent = digits[Math.floor(Math.random() * digits.length)];
+                digit.style.left = Math.random() * 100 + 'vw';
+                digit.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                digit.style.animationDelay = Math.random() * 5 + 's';
+                matrixRain.appendChild(digit);
+            }
+        }
+        
+        // LIVE TIME UPDATE
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();
+            const dateStr = now.toLocaleDateString();
+            
+            document.getElementById('liveTime').textContent = timeStr;
+            document.getElementById('updateTime').textContent = `${dateStr} ${timeStr}`;
+            
+            // Update monitor text
+            const monitorText = document.getElementById('monitorText');
+            const texts = [
+                `[SYSTEM] Live Tracking Active | [TIME] ${timeStr} | [STATUS] Monitoring 98 Candidates | [ALERT] 24 Unknown Locations Detected`,
+                `[SYSTEM] IP Logging Active | [TIME] ${timeStr} | [STATUS] 3 Locations Tracked | [WARNING] Cheating Attempts Detected`,
+                `[SYSTEM] Screen Recording Active | [TIME] ${timeStr} | [STATUS] 48 Attempts from Faridabad | [ALERT] VPN Usage Detected`,
+                `[SYSTEM] Keystroke Logging Active | [TIME] ${timeStr} | [STATUS] 17 Attempts from Noida | [WARNING] Multiple Tabs Detected`
+            ];
+            
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            monitorText.innerHTML = randomText + '<span class="blink-cursor">_</span>';
+        }
+        
+        // ANIMATE COUNT NUMBERS
+        function animateCount(elementId, finalValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            let startValue = 0;
+            const increment = finalValue / (duration / 16); // 60fps
+            
+            const timer = setInterval(() => {
+                startValue += increment;
+                if(startValue >= finalValue) {
+                    element.textContent = finalValue;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(startValue);
+                }
+            }, 16);
+        }
+        
+        // RANDOM FLICKER EFFECT
+        function randomFlicker() {
+            const cards = document.querySelectorAll('.stat-card');
+            cards.forEach(card => {
+                if(Math.random() > 0.7) {
+                    card.style.boxShadow = '0 0 40px currentColor';
+                    setTimeout(() => {
+                        card.style.boxShadow = '';
+                    }, 200);
+                }
+            });
+            
+            // Random glitch effect on numbers
+            const counts = document.querySelectorAll('.visit-count');
+            counts.forEach(count => {
+                if(Math.random() > 0.9) {
+                    const original = count.textContent;
+                    count.textContent = Math.random().toString(36).substring(2, 8);
+                    count.style.color = '#ff0000';
+                    
+                    setTimeout(() => {
+                        count.textContent = original;
+                        count.style.color = '';
+                    }, 100);
+                }
+            });
+        }
+        
+        // SCARY MESSAGE ROTATOR
+        const scaryMessages = [
+            "Your location has been logged.",
+            "IP address recorded for security audit.",
+            "Screen activity is being monitored.",
+            "Tab switching attempts detected.",
+            "VPN usage violates exam policy.",
+            "All activities will be reported to HR.",
+            "Cheating will result in permanent blacklist.",
+            "System detects multiple access attempts.",
+            "Your webcam may be activated for verification."
+        ];
+        
+        function showRandomMessage() {
+            const message = scaryMessages[Math.floor(Math.random() * scaryMessages.length)];
+            
+            const alert = document.createElement('div');
+            alert.style.position = 'fixed';
+            alert.style.bottom = '20px';
+            alert.style.right = '20px';
+            alert.style.background = 'rgba(255, 0, 0, 0.9)';
+            alert.style.color = 'white';
+            alert.style.padding = '15px';
+            alert.style.borderRadius = '5px';
+            alert.style.zIndex = '10000';
+            alert.style.fontFamily = "'Courier New', monospace";
+            alert.style.border = '2px solid #ff0';
+            alert.style.boxShadow = '0 0 20px #ff0000';
+            alert.textContent = `⚠️ ${message}`;
+            
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 1s';
+                setTimeout(() => {
+                    document.body.removeChild(alert);
+                }, 1000);
+            }, 3000);
+        }
+        
+        // RANDOM SYSTEM SOUNDS (Psychological effect)
+        function playRandomSound() {
+            const sounds = ['click', 'beep', 'alert'];
+            const sound = sounds[Math.floor(Math.random() * sounds.length)];
+            
+            // Create audio context for beep sounds
+            if(window.AudioContext) {
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+                
+                oscillator.frequency.value = 800 + Math.random() * 400;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, context.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.5);
+                
+                oscillator.start(context.currentTime);
+                oscillator.stop(context.currentTime + 0.5);
+            }
+        }
+        
+        // INITIALIZE EVERYTHING
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create matrix rain
+            createMatrixRain();
+            
+            // Update time immediately and every second
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            // Animate counts
+            setTimeout(() => {
+                animateCount('faridabadCount', 48);
+                animateCount('noidaCount', 17);
+                animateCount('indoreCount', 9);
+                animateCount('unknownCount', 24);
+            }, 500);
+            
+            // Start flicker effect
+            setInterval(randomFlicker, 500);
+            
+            // Show random scary messages
+            setInterval(showRandomMessage, 8000);
+            
+            // Play random system sounds
+            setInterval(playRandomSound, 15000);
+            
+            // Add click effect on cards
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    playRandomSound();
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 300);
+                });
+            });
+            
+            // Fake loading screen
+            const loadingScreen = document.createElement('div');
+            loadingScreen.style.position = 'fixed';
+            loadingScreen.style.top = '0';
+            loadingScreen.style.left = '0';
+            loadingScreen.style.width = '100%';
+            loadingScreen.style.height = '100%';
+            loadingScreen.style.background = '#000';
+            loadingScreen.style.display = 'flex';
+            loadingScreen.style.flexDirection = 'column';
+            loadingScreen.style.justifyContent = 'center';
+            loadingScreen.style.alignItems = 'center';
+            loadingScreen.style.zIndex = '10000';
+            loadingScreen.style.fontFamily = "'Courier New', monospace";
+            loadingScreen.innerHTML = `
+                <div style="color: #0f0; font-size: 24px; margin-bottom: 30px;">
+                    TCS SECURITY SYSTEM INITIALIZING...
+                </div>
+                <div style="width: 300px; height: 10px; background: #000; border: 1px solid #0f0; margin-bottom: 20px;">
+                    <div id="loadBar" style="width: 0%; height: 100%; background: #0f0; transition: width 0.1s;"></div>
+                </div>
+                <div style="color: #0f0; font-size: 14px;" id="loadText">
+                    Loading surveillance modules...
+                </div>
+            `;
+            
+            document.body.appendChild(loadingScreen);
+            
+            // Animate loading bar
+            let progress = 0;
+            const loadBar = document.getElementById('loadBar');
+            const loadText = document.getElementById('loadText');
+            const texts = [
+                "Initializing IP tracking...",
+                "Activating location services...",
+                "Loading candidate database...",
+                "Starting screen recording...",
+                "Enabling keystroke logging...",
+                "Connecting to HR database...",
+                "Finalizing surveillance setup...",
+                "System ready in 3... 2... 1..."
+            ];
+            
+            const loadInterval = setInterval(() => {
+                progress += 2;
+                loadBar.style.width = progress + '%';
+                
+                if(progress % 25 === 0 && progress <= 100) {
+                    loadText.textContent = texts[progress / 25 - 1];
+                }
+                
+                if(progress >= 100) {
+                    clearInterval(loadInterval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.transition = 'opacity 1s';
+                        setTimeout(() => {
+                            document.body.removeChild(loadingScreen);
+                            // Show initial alert
+                            showRandomMessage();
+                        }, 1000);
+                    }, 500);
+                }
+            }, 50);
+        });
+        
+        // PREVENT RIGHT CLICK
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showRandomMessage();
+        });
+        
+        // PREVENT KEYBOARD SHORTCUTS
+        document.addEventListener('keydown', function(e) {
+            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if(
+                e.key === 'F12' ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                (e.ctrlKey && e.key === 'u')
+            ) {
+                e.preventDefault();
+                
+                // Show scary alert
+                const alert = document.createElement('div');
+                alert.style.position = 'fixed';
+                alert.style.top = '50%';
+                alert.style.left = '50%';
+                alert.style.transform = 'translate(-50%, -50%)';
+                alert.style.background = 'rgba(255, 0, 0, 0.95)';
+                alert.style.color = 'white';
+                alert.style.padding = '30px';
+                alert.style.borderRadius = '10px';
+                alert.style.zIndex = '10000';
+                alert.style.fontSize = '24px';
+                alert.style.textAlign = 'center';
+                alert.style.border = '5px solid #ff0';
+                alert.style.boxShadow = '0 0 50px #ff0000';
+                alert.innerHTML = `
+                    <div style="font-size: 48px; margin-bottom: 20px;">🚨</div>
+                    <div>DEVELOPER TOOLS DISABLED!</div>
+                    <div style="font-size: 16px; margin-top: 15px;">
+                        Attempting to access developer tools is a violation of exam rules.<br>
+                        This incident has been logged and reported.
+                    </div>
+                `;
+                
+                document.body.appendChild(alert);
+                
+                setTimeout(() => {
+                    alert.style.opacity = '0';
+                    alert.style.transition = 'opacity 1s';
+                    setTimeout(() => {
+                        document.body.removeChild(alert);
+                    }, 1000);
+                }, 3000);
+            }
+        });
+    </script>
 </body>
 </html>
+
+
